@@ -190,6 +190,9 @@ namespace TimeAdvanceSimulation
                     followupSystem = departure.System.FollowupSystems.Last().Item1;
                 }
 
+                if (_config.Verbose)
+                    Console.WriteLine($"\tPassed to {followupSystem.Name}, {_clock}");
+
                 _queue.Add(new Event
                 {
                     ScheduledTime = _clock,

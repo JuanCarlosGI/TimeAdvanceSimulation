@@ -27,7 +27,7 @@ namespace TimeAdvanceSimulation
         /// </returns>
         public int CompareTo(object obj)
         {
-            return (int)(ScheduledTime - ((Event)obj).ScheduledTime);
+            return (int)((ScheduledTime - ((Event)obj).ScheduledTime)*1000000000);
         }
 
         /// <summary>
