@@ -26,6 +26,11 @@
         public double X { get; set; }
 
         /// <summary>
+        /// Gets or sets the rejection rate of the system.
+        /// </summary>
+        public double RejectionRate { get; set; }
+
+        /// <summary>
         /// Gets or sets the system for which the result refer to.
         /// </summary>
         public System System { get; set; }

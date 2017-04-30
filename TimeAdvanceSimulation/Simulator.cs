@@ -84,7 +84,8 @@ namespace TimeAdvanceSimulation
                     N = system.Summation / observationTime,
                     U = system.BusyTime / observationTime / system.Processors,
                     R = system.Summation / system.CompletedJobs,
-                    X = system.CompletedJobs / observationTime
+                    X = system.CompletedJobs / observationTime,
+                    RejectionRate = system.RejectedJobs / (system.RejectedJobs + system.CompletedJobs)
                 }).ToList();
         }
 
@@ -132,6 +133,8 @@ namespace TimeAdvanceSimulation
             }
             else
             {
+                arrival.System.RejectedJobs++;
+
                 if (_config.Verbose)
                 {
                     Console.WriteLine($"Arrival rejected by system {arrival.System.Name}");

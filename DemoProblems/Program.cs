@@ -16,26 +16,9 @@ namespace DemoProblems
         /// <param name="args">Command line arguments.</param>
         public static void Main(string[] args)
         {
-            //Problem2();
-            Problem3();
-        }
-
-        public static void Problem2()
-        {
-            var systemA = new System(6)
-            {
-                ServiceTime = 2.5,
-                MaxJobs = 40
-            };
-
-            var results = new Simulator(new SimulationConfiguration
-            {
-                ArrivalRate = 5.5,
-                ClockEnd = 10000000,
-                EntryPoint = systemA,
-                TrackedSystems = new List<System> { systemA },
-                //Verbose = true
-            }).RunSimulation();
+            //var results = Problem2();
+            //var results = Problem3();
+            var results = Problem4();
 
             foreach (var result in results)
             {
@@ -43,24 +26,37 @@ namespace DemoProblems
                 Console.WriteLine($"N = {result.N}");
                 Console.WriteLine($"U = {result.U}");
                 Console.WriteLine($"R = {result.R}");
-                Console.WriteLine($"X = {result.X}\n");
+                Console.WriteLine($"X = {result.X}");
+                Console.WriteLine($"Rejection rate: {result.RejectionRate}\n");
             }
         }
 
-        public static void Problem3()
+        /// <summary>
+        /// Runs a simulation where a single single-processor system completes jobs.
+        /// </summary>
+        /// <returns>The results of the simulation</returns>
+        public static List<SimulationResult> Problem2()
         {
-            var systemB = new System(1)
+            var systemA = new System(1) { ServiceTime = 1 / 8.0, MaxJobs = 37 };
+            return new Simulator(new SimulationConfiguration
             {
-                ServiceTime = 1 / 12.0,
-                Name = "B"
-            };
+                ArrivalRate = 1 / 7.0,
+                ClockEnd = 100000,
+                EntryPoint = systemA,
+                TrackedSystems = new List<System> { systemA },
+                //Verbose = true
+            }).RunSimulation();
+        }
 
-            var systemC = new System(1)
-            {
-                ServiceTime = 1 / 7.0,
-                Name = "C"
-            };
-
+        /// <summary>
+        /// Runs a simulation where system A forwards jobs to either system B or system C, with probabilities of 60% 
+        /// and 40%, respectively. All systems have a single processor.
+        /// </summary>
+        /// <returns>The results of the simulation.</returns>
+        public static List<SimulationResult> Problem3()
+        {
+            var systemB = new System(1) {ServiceTime = 1 / 12.0, Name = "B"};
+            var systemC = new System(1) {ServiceTime = 1 / 7.0, Name = "C"};
             var systemA = new System(1)
             {
                 ServiceTime = 1 / 15.0,
@@ -72,23 +68,32 @@ namespace DemoProblems
                 }
             };
 
-            var results = new Simulator(new SimulationConfiguration
+            return new Simulator(new SimulationConfiguration
             {
                 ArrivalRate = 1 / 10.0,
-                ClockEnd = 100000,
+                ClockEnd = 10000,
                 EntryPoint = systemA,
                 TrackedSystems = new List<System> { systemA, systemB, systemC },
                 //Verbose = true
             }).RunSimulation();
+        }
 
-            foreach (var result in results)
+        /// <summary>
+        /// Runs a simulation where a single system with multiple processors completes jobs. 22 jobs arrive per second,
+        /// and 8 jobs are completed per processor per second.
+        /// </summary>
+        /// <returns>The results of the simulation.</returns>
+        public static List<SimulationResult> Problem4()
+        {
+            var systemA = new System(6) {ServiceTime = 1 / 8.0};
+            return new Simulator(new SimulationConfiguration
             {
-                Console.WriteLine(result.System.Name);
-                Console.WriteLine($"N = {result.N}");
-                Console.WriteLine($"U = {result.U}");
-                Console.WriteLine($"R = {result.R}");
-                Console.WriteLine($"X = {result.X}\n");
-            }
+                ArrivalRate = 1 / 22.0,
+                ClockEnd = 10000,
+                EntryPoint = systemA,
+                TrackedSystems = new List<System> { systemA },
+                //Verbose = true
+            }).RunSimulation();
         }
     }
 }

@@ -73,5 +73,10 @@ namespace TimeAdvanceSimulation
         /// Gets or sets the accumulated busy time
         /// </summary>
         public double BusyTime { get; set; } = 0;
+
+        /// <summary>
+        /// Gets or sets the amount of jobs rejected by the system.
+        /// </summary>
+        public int RejectedJobs { get; set; } = 0;
     }
 }
