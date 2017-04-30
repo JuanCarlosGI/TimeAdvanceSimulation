@@ -188,20 +188,25 @@ namespace TimeAdvanceSimulation
                     }
                     restProb -= tuple.Item2;
                 }
+
+                // No system was chosen where probabilities don't add up to 1.
                 if (followupSystem == null)
                 {
-                    followupSystem = departure.System.FollowupSystems.Last().Item1;
+                    if (_config.Verbose)
+                        Console.WriteLine($"\tExited the network.");
                 }
-
-                if (_config.Verbose)
-                    Console.WriteLine($"\tPassed to {followupSystem.Name}, {_clock}");
-
-                _queue.Add(new Event
+                else
                 {
-                    ScheduledTime = _clock,
-                    Type = EventType.Arrival,
-                    System = followupSystem
-                });
+                    if (_config.Verbose)
+                        Console.WriteLine($"\tPassed to {followupSystem.Name}");
+
+                    _queue.Add(new Event
+                    {
+                        ScheduledTime = _clock,
+                        Type = EventType.Arrival,
+                        System = followupSystem
+                    });
+                }
             }
 
             // Check if there are pending jobs.

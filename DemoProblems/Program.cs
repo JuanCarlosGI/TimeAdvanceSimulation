@@ -41,7 +41,7 @@ namespace DemoProblems
             return new Simulator(new SimulationConfiguration
             {
                 ArrivalRate = 1 / 7.0,
-                ClockEnd = 100000,
+                ClockEnd = 10000,
                 EntryPoint = systemA,
                 TrackedSystems = new List<System> { systemA },
                 //Verbose = true
