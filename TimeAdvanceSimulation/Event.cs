@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Remoting.Messaging;
 
 namespace TimeAdvanceSimulation
 {
@@ -27,7 +28,7 @@ namespace TimeAdvanceSimulation
         /// </returns>
         public int CompareTo(object obj)
         {
-            return (int)((ScheduledTime - ((Event)obj).ScheduledTime)*1000000000);
+            return ScheduledTime < ((Event)obj).ScheduledTime ? -1 : 1;
         }
 
         /// <summary>
